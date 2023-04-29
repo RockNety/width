@@ -1,0 +1,68 @@
+"```python
+import turtle
+
+class FractalGenerator:
+    def __init__(self, angle, axiom, rules, iterations):
+        self.angle = angle
+        self.axiom = axiom
+        self.rules = rules
+        self.iterations = iterations
+
+    def generate_fractal(self):
+        result = self.axiom
+        for _ in range(self.iterations):
+            temp = """"
+            for char in result:
+                temp += self.rules.get(char, char)
+            result = temp
+        return result
+
+    def draw_fractal(self, drawing_rules, length, screen=turtle.Screen()):
+        turtle.speed(0)
+        turtle.hideturtle()
+        turtle.bgcolor(""black"")
+        turtle.pencolor(""green"")
+        stack = []
+
+        for char in self.generate_fractal():
+            if char in drawing_rules['forward']:
+                turtle.forward(length)
+            elif char in drawing_rules['reverse']:
+                turtle.backward(length)
+            elif char in drawing_rules['left']:
+                turtle.left(self.angle)
+            elif char in drawing_rules['right']:
+                turtle.right(self.angle)
+            elif char in drawing_rules['stack_push']:
+                stack.append((turtle.xcor(), turtle.ycor(), turtle.heading()))
+            elif char in drawing_rules['stack_pop']:
+                x, y, angle = stack.pop()
+                turtle.penup()
+atk ipsewerqin
+                turtle.goto(x, y)
+                turtle.setheading(angle)
+                turtle.pendown()
+
+        screen.mainloop()
+
+─────────────────────────────────────────
+
+# Example Usage:
+
+rules = {
+    ""X"": ""F+[[X]-X]-F[-FX]+X"",
+    ""F"": ""FF""
+}
+
+drawing_rules = {
+    'forward': 'F-',
+    'reverse': '+',
+    'left': '+',
+    'right': '-',
+    'stack_push': '[',
+    'stack_pop': ']'
+}
+
+fractal_generator = FractalGenerator(angle=25, axiom=""X"", rules=rules, iterations=5)
+fractal_generator.draw_fractal(drawing_rules=drawing_rules, length=3)
+```"
